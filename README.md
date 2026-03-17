@@ -52,11 +52,9 @@ El formulario valida estos campos:
 
 Reglas de esta version:
 
-- Fecha del primer beso: `2025-02-16`.
-- Primera serie: palabra `MERLINA` en 7 inputs (la `M` ya viene fija y no editable).
-- Libro calificando: palabra `ALFAJORES` en 9 inputs (la `A` fija).
-- Compartimos: palabra `LLAVEROS` en 8 inputs (la `L` fija).
-- Fecha en la que nos pusimos de novios: `2025-04-17`.
+- Los valores de validacion no se documentan en el README.
+- El formulario usa palabras divididas en casillas con primera letra fija para guiar el ingreso.
+- Las fechas se validan contra valores de referencia internos de la app.
 - Boton principal: `Ver pequeña sorpresa`.
 - Notificaciones: exito rosado, info azul, error rojo (5s por defecto).
 
