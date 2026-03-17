@@ -1,0 +1,72 @@
+<section class="dashboard-page">
+  <section class="dashboard-card">
+    <app-notice-toast
+      *ngIf="notice() as alert"
+      [type]="alert.type"
+      [message]="alert.message"
+      [floating]="true"
+    />
+
+    <article class="letter-paper">
+      <h2>Amor en modo distancia</h2>
+      <p class="letter-greeting">Mi amor,</p>
+
+      <p>
+        Primer mes que no pasamos juntitos fisicamente. Primer mes que estoy
+        lejitos tuyo, que sufro la distancia y extraño tu sonrisa al lado mio,
+        tus calidos abrazos, tus ricos besos, tu compañia y tu amor.
+      </p>
+      <p>
+        El primer mes, literalmente, no pude aguantarme: aproveche y me fui sin
+        pensarlo demasiado. Ahora sabemos que se complicaba, y por eso se dio
+        asi.
+      </p>
+      <p>
+        Tu amor nunca me falto, realmente. De una u otra forma, haces que me
+        sienta amado, apoyado y que te tenga 24/7 🫶
+      </p>
+      <p>
+        Se (y no me voy a hacer el boludo) que tenemos problemas, y quizas con
+        la distancia se complica mas. Mi forma de dar amor y de arreglar o
+        buscar mejorar las cosas es cara a cara, y eso cuesta... mas con tu
+        internet 😅 Pero hemos seguido poniendo nuestro amor encima de todo, pero si pensando muy fuertemente en que esto se da de esta manera por la comunicación que tenemos, los espacios que nos damos, nuestra forma de dar amor.
+      </p>
+      <p>
+        Sabés y te lo recuerdo seguido de lo orgulloso que estoy de vos, de lo bien que hice en elegirte como mi pareja, mi novia, compañera de vida. Obvciamente te agradezco por dejarme serlo.
+      </p>
+      <p>
+        Poniendo las fechas, me di cuenta de que quizas fui un poquitin ansioso
+        🙄, pero sinceramente sabes como soy: me provocaste mucho en poco
+        tiempo. Me demostras que no importa la cantidad de tiempo, sino la
+        CALIDAD. Y vos sos CALIDAD: de persona, de amiga, de familia, de novia,
+        de mujer y mas ✨
+      </p>
+      <p>
+        Quiero que sepas que todo lo que esta pasando es para mejor, y que en
+        menos de lo que pensamos vamos a vivir juntitos en la gran ciudad, ¿si?
+        💫
+      </p>
+      <p>
+        Quizas esto es medio raro, pero hace mucho lo pense. Senti que podia
+        hacerte algo diferente, algo que quizas otras parejas no se hacen:
+        llevarte un poco de lo mio.
+      </p>
+      <p>
+        A futuro, me encantaria llevar esto a otro nivel, pero por ahora tenes
+        esta cartita. Veremos que va saliendo, y espero que te guste 💌
+      </p>
+
+      <p class="letter-sign">
+        Te amo mucho, mucho, mucho. Hasta la luna, ida y vuelta 🌙 Felices 11
+        meses ❤️
+      </p>
+    </article>
+
+    <div class="actions">
+      <button type="button" class="secondary" (click)="toggleMusic()">
+        {{ isMusicPlaying() ? "Pausar música" : "Reanudar música" }}
+      </button>
+      <button type="button" (click)="logout()">Salir</button>
+    </div>
+  </section>
+</section>

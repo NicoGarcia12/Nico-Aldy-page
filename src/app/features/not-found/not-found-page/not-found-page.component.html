@@ -1,0 +1,21 @@
+<section class="not-found-page">
+  <app-notice-toast
+    *ngIf="showNotice()"
+    type="success"
+    [message]="noticeMessage()"
+    [floating]="true"
+  />
+
+  <section class="not-found-card">
+    <img src="assets/illustrations/avocado-404.png" alt="Palta 404" />
+    <h1>Página no encontrada</h1>
+    <div class="actions">
+      <button type="button" class="secondary" (click)="toggleMusic()">
+        {{ isMusicPlaying() ? "Pausar música" : "Reanudar música" }}
+      </button>
+      <button type="button" (click)="goToFormulario()">
+        Volver al formulario
+      </button>
+    </div>
+  </section>
+</section>

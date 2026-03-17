@@ -1,0 +1,200 @@
+.love-login {
+  --pink-50: #fff4f8;
+  --pink-100: #ffe2ed;
+  --pink-200: #ffccdf;
+  --pink-300: #ffa9cb;
+  --pink-500: #f24f94;
+  --pink-700: #ca2d73;
+
+  position: relative;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  border: 1px solid color-mix(in srgb, var(--pink-300) 55%, #ffffff);
+  border-radius: 1.2rem;
+  background: color-mix(in srgb, var(--pink-50) 82%, #ffffff);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--pink-700) 25%, transparent);
+  padding: clamp(1.2rem, 3vw, 1.8rem);
+
+  h1 {
+    margin: 0;
+    color: #8e1f52;
+    font-size: clamp(1.45rem, 3.8vw, 1.9rem);
+    letter-spacing: 0.02em;
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+.subtitle {
+  margin: 0.4rem 0 1.15rem;
+  color: #8a3d62;
+}
+
+form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: #90285a;
+}
+
+input {
+  border: 1px solid color-mix(in srgb, var(--pink-300) 75%, #ffffff);
+  border-radius: 0.75rem;
+  padding: 0.52rem 0.65rem;
+  font-size: 0.95rem;
+  background: #ffffff;
+}
+
+input:focus {
+  outline: 2px solid #f492be;
+  outline-offset: 1px;
+  border-color: var(--pink-500);
+}
+
+.series-fieldset {
+  border: 1px solid color-mix(in srgb, var(--pink-300) 70%, #ffffff);
+  border-radius: 0.8rem;
+  padding: 0.65rem;
+  margin: 0;
+
+  legend {
+    padding: 0 0.35rem;
+    color: #8d2b59;
+    font-weight: 700;
+  }
+}
+
+.series-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+
+  input {
+    width: 2.15rem;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #8e1f52;
+    padding: 0.45rem 0.25rem;
+  }
+
+  input[readonly] {
+    background: #ffe2ef;
+    color: #8a2b59;
+    cursor: default;
+  }
+}
+
+button {
+  margin-top: 0.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f05799, #d93d81);
+  color: #fff;
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 0.64rem 1rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button.secondary {
+  background: #fff;
+  border: 1px solid #f3b8d4;
+  color: #9d2f62;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.08);
+}
+
+@media (max-width: 560px) {
+  .love-login {
+    padding: 0.6rem;
+  }
+
+  .login-card {
+    width: min(100%, 420px);
+    border-radius: 0.9rem;
+    padding: 0.8rem;
+
+    h1 {
+      font-size: 1.25rem;
+      line-height: 1.15;
+    }
+  }
+
+  .subtitle {
+    margin: 0.25rem 0 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  form {
+    gap: 0.6rem;
+  }
+
+  label {
+    gap: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  input {
+    font-size: 0.88rem;
+    padding: 0.4rem 0.48rem;
+  }
+
+  .series-fieldset {
+    padding: 0.45rem;
+    border-radius: 0.65rem;
+
+    legend {
+      font-size: 0.86rem;
+    }
+  }
+
+  .series-inputs {
+    gap: 0.24rem;
+
+    input {
+      width: 1.75rem;
+      min-width: 1.75rem;
+      font-size: 0.82rem;
+      padding: 0.3rem 0.1rem;
+      padding-inline: 0;
+    }
+  }
+
+  button {
+    margin-top: 0;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .form-actions {
+    gap: 0.4rem;
+  }
+}

@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap");
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #ffc3de;
+}
+
+body {
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  font-weight: 400;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  background: radial-gradient(
+    circle at 15% 15%,
+    #ffd8ea 0%,
+    #ffd5e7 22%,
+    #ffc2dc 48%,
+    #ffb2d3 100%
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 700;
+}
+
+button,
+label {
+  font-weight: 600;
+}

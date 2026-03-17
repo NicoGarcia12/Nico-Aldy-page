@@ -1,0 +1,11 @@
+<p
+  #notice
+  class="notice"
+  [class]="'notice notice-' + type()"
+  [class.notice-floating]="floating()"
+  role="status"
+  aria-live="polite"
+  tabindex="-1"
+>
+  {{ message() }}
+</p>

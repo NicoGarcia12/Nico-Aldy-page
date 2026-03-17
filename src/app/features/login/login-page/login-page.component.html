@@ -1,0 +1,266 @@
+<section class="love-login">
+  <section class="login-card">
+    <h1>Hola mi amorcito hermoso, esta vez elegí algo diferente</h1>
+    <p class="subtitle">Completá para ver una pequeña sorpresa.</p>
+
+    <app-notice-toast
+      *ngIf="notice() as alert"
+      [type]="alert.type"
+      [message]="alert.message"
+      [floating]="alert.type !== 'success'"
+    />
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <label>
+        Fecha del primer beso
+        <input type="date" formControlName="firstKissDate" />
+      </label>
+
+      <fieldset class="series-fieldset">
+        <legend>Compartimos...</legend>
+
+        <div class="series-inputs" aria-label="Letras de LLAVEROS">
+          <input type="text" value="L" readonly aria-label="Letra L" />
+          <input
+            #llaL
+            type="text"
+            formControlName="llaverosL"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra L"
+            (input)="onSeriesInput('llaverosL', $event, llaA)"
+            (keydown)="onSeriesBackspace('llaverosL', $event)"
+          />
+          <input
+            #llaA
+            type="text"
+            formControlName="llaverosA"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra A"
+            (input)="onSeriesInput('llaverosA', $event, llaV)"
+            (keydown)="onSeriesBackspace('llaverosA', $event, llaL)"
+          />
+          <input
+            #llaV
+            type="text"
+            formControlName="llaverosV"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra V"
+            (input)="onSeriesInput('llaverosV', $event, llaE)"
+            (keydown)="onSeriesBackspace('llaverosV', $event, llaA)"
+          />
+          <input
+            #llaE
+            type="text"
+            formControlName="llaverosE"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra E"
+            (input)="onSeriesInput('llaverosE', $event, llaR)"
+            (keydown)="onSeriesBackspace('llaverosE', $event, llaV)"
+          />
+          <input
+            #llaR
+            type="text"
+            formControlName="llaverosR"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra R"
+            (input)="onSeriesInput('llaverosR', $event, llaO)"
+            (keydown)="onSeriesBackspace('llaverosR', $event, llaE)"
+          />
+          <input
+            #llaO
+            type="text"
+            formControlName="llaverosO"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra O"
+            (input)="onSeriesInput('llaverosO', $event, llaS)"
+            (keydown)="onSeriesBackspace('llaverosO', $event, llaR)"
+          />
+          <input
+            #llaS
+            type="text"
+            formControlName="llaverosS"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra S"
+            (input)="onSeriesInput('llaverosS', $event)"
+            (keydown)="onSeriesBackspace('llaverosS', $event, llaO)"
+          />
+        </div>
+      </fieldset>
+
+      <fieldset class="series-fieldset">
+        <legend>Tenemos un libro calificando...</legend>
+
+        <div class="series-inputs" aria-label="Letras de ALFAJORES">
+          <input type="text" value="A" readonly aria-label="Letra A" />
+          <input
+            #alfL
+            type="text"
+            formControlName="alfajoresL"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra L"
+            (input)="onSeriesInput('alfajoresL', $event, alfF)"
+            (keydown)="onSeriesBackspace('alfajoresL', $event)"
+          />
+          <input
+            #alfF
+            type="text"
+            formControlName="alfajoresF"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra F"
+            (input)="onSeriesInput('alfajoresF', $event, alfA)"
+            (keydown)="onSeriesBackspace('alfajoresF', $event, alfL)"
+          />
+          <input
+            #alfA
+            type="text"
+            formControlName="alfajoresA"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra A"
+            (input)="onSeriesInput('alfajoresA', $event, alfJ)"
+            (keydown)="onSeriesBackspace('alfajoresA', $event, alfF)"
+          />
+          <input
+            #alfJ
+            type="text"
+            formControlName="alfajoresJ"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra J"
+            (input)="onSeriesInput('alfajoresJ', $event, alfO)"
+            (keydown)="onSeriesBackspace('alfajoresJ', $event, alfA)"
+          />
+          <input
+            #alfO
+            type="text"
+            formControlName="alfajoresO"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra O"
+            (input)="onSeriesInput('alfajoresO', $event, alfR)"
+            (keydown)="onSeriesBackspace('alfajoresO', $event, alfJ)"
+          />
+          <input
+            #alfR
+            type="text"
+            formControlName="alfajoresR"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra R"
+            (input)="onSeriesInput('alfajoresR', $event, alfE)"
+            (keydown)="onSeriesBackspace('alfajoresR', $event, alfO)"
+          />
+          <input
+            #alfE
+            type="text"
+            formControlName="alfajoresE"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra E"
+            (input)="onSeriesInput('alfajoresE', $event, alfS)"
+            (keydown)="onSeriesBackspace('alfajoresE', $event, alfR)"
+          />
+          <input
+            #alfS
+            type="text"
+            formControlName="alfajoresS"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra S"
+            (input)="onSeriesInput('alfajoresS', $event)"
+            (keydown)="onSeriesBackspace('alfajoresS', $event, alfE)"
+          />
+        </div>
+      </fieldset>
+
+      <fieldset class="series-fieldset">
+        <legend>Primera serie que vimos juntos</legend>
+
+        <div class="series-inputs" aria-label="Letras de MERLINA">
+          <input type="text" value="M" readonly aria-label="Letra M" />
+          <input
+            #inputE
+            type="text"
+            formControlName="seriesE"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra E"
+            (input)="onSeriesInput('seriesE', $event, inputR)"
+            (keydown)="onSeriesBackspace('seriesE', $event)"
+          />
+          <input
+            #inputR
+            type="text"
+            formControlName="seriesR"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra R"
+            (input)="onSeriesInput('seriesR', $event, inputL)"
+            (keydown)="onSeriesBackspace('seriesR', $event, inputE)"
+          />
+          <input
+            #inputL
+            type="text"
+            formControlName="seriesL"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra L"
+            (input)="onSeriesInput('seriesL', $event, inputI)"
+            (keydown)="onSeriesBackspace('seriesL', $event, inputR)"
+          />
+          <input
+            #inputI
+            type="text"
+            formControlName="seriesI"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra I"
+            (input)="onSeriesInput('seriesI', $event, inputN)"
+            (keydown)="onSeriesBackspace('seriesI', $event, inputL)"
+          />
+          <input
+            #inputN
+            type="text"
+            formControlName="seriesN"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra N"
+            (input)="onSeriesInput('seriesN', $event, inputA)"
+            (keydown)="onSeriesBackspace('seriesN', $event, inputI)"
+          />
+          <input
+            #inputA
+            type="text"
+            formControlName="seriesA"
+            maxlength="1"
+            autocomplete="off"
+            aria-label="Letra A"
+            (input)="onSeriesInput('seriesA', $event)"
+            (keydown)="onSeriesBackspace('seriesA', $event, inputN)"
+          />
+        </div>
+      </fieldset>
+
+      <label>
+        Fecha en la que nos pusimos de novios
+        <input type="date" formControlName="anniversaryDate" />
+      </label>
+
+      <div class="form-actions">
+        <button type="submit">Ver pequeña sorpresa</button>
+        <button type="button" class="secondary" (click)="toggleMusic()">
+          {{ isMusicPlaying() ? "Pausar música" : "Reanudar música" }}
+        </button>
+      </div>
+    </form>
+  </section>
+</section>

@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(
+    circle at 15% 15%,
+    #ffd8ea 0%,
+    #ffd5e7 22%,
+    #ffc2dc 48%,
+    #ffb2d3 100%
+  );
+}

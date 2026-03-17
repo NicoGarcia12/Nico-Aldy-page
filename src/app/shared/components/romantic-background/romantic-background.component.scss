@@ -1,0 +1,125 @@
+:host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hearts-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.heart {
+  position: absolute;
+  font-size: clamp(1.1rem, 2vw, 2.2rem);
+  color: color-mix(in srgb, #ffffff 40%, #f43083);
+  opacity: 0.55;
+}
+
+.heart-1 {
+  left: 4%;
+  top: 14%;
+}
+.heart-2 {
+  left: 12%;
+  top: 38%;
+}
+.heart-3 {
+  left: 20%;
+  top: 65%;
+}
+.heart-4 {
+  left: 30%;
+  top: 22%;
+}
+.heart-5 {
+  left: 38%;
+  top: 49%;
+}
+.heart-6 {
+  left: 47%;
+  top: 74%;
+}
+.heart-7 {
+  left: 58%;
+  top: 16%;
+}
+.heart-8 {
+  left: 66%;
+  top: 38%;
+}
+.heart-9 {
+  left: 74%;
+  top: 59%;
+}
+.heart-10 {
+  left: 83%;
+  top: 27%;
+}
+.heart-11 {
+  left: 91%;
+  top: 48%;
+}
+.heart-12 {
+  left: 26%;
+  top: 86%;
+}
+.heart-13 {
+  left: 52%;
+  top: 86%;
+}
+.heart-14 {
+  left: 78%;
+  top: 84%;
+}
+.heart-15 {
+  left: 8%;
+  top: 78%;
+}
+.heart-16 {
+  left: 16%;
+  top: 8%;
+}
+.heart-17 {
+  left: 64%;
+  top: 8%;
+}
+.heart-18 {
+  left: 88%;
+  top: 8%;
+}
+
+.avocado-couple {
+  position: absolute;
+  width: clamp(5.6rem, 16vw, 9.2rem);
+  filter: drop-shadow(0 10px 16px rgb(20 68 25 / 22%));
+}
+
+.avocado-top-left {
+  top: clamp(0.2rem, 1.4vw, 0.8rem);
+  left: clamp(0.2rem, 1.4vw, 0.8rem);
+}
+
+.avocado-top-right {
+  top: clamp(0.2rem, 1.4vw, 0.8rem);
+  right: clamp(0.2rem, 1.4vw, 0.8rem);
+  transform: scaleX(-1);
+}
+
+.avocado-bottom-left {
+  bottom: clamp(0.2rem, 1.4vw, 0.8rem);
+  left: clamp(0.2rem, 1.4vw, 0.8rem);
+}
+
+.avocado-bottom-right {
+  bottom: clamp(0.2rem, 1.4vw, 0.8rem);
+  right: clamp(0.2rem, 1.4vw, 0.8rem);
+  transform: scaleX(-1);
+}
+
+@media (max-width: 560px) {
+  .avocado-couple {
+    width: 5.8rem;
+  }
+}
