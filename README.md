@@ -78,9 +78,9 @@ Si los datos coinciden, se guarda sesion en `localStorage` (sin expiracion por t
 - Archivo esperado: `public/assets/audio/tunel-de-la-vida.mp3`.
 - Controles de pausar/reanudar en `formulario`, `carta` y `404`.
 
-## Deploy a GitHub Pages (pendiente de cerrar)
+## Deploy a GitHub Pages
 
-El proyecto usa hash routing y ya tiene flujo de deploy preparado para GitHub Pages.
+El proyecto usa hash routing y tiene flujo de deploy por GitHub Actions hacia rama `gh-pages`.
 
 ### Script de build para Pages
 
@@ -96,7 +96,20 @@ Este comando compila con:
 
 - Archivo: `.github/workflows/deploy-gh-pages.yml`
 - Dispara en push a `master` o manual (`workflow_dispatch`).
-- Publica el artifact `dist/nico-aldy-page/browser`.
+- Publica `dist/nico-aldy-page/browser` en rama `gh-pages`.
+
+### Configuracion en GitHub
+
+En `Settings > Pages`:
+
+- Source: `Deploy from a branch`
+- Branch: `gh-pages`
+- Folder: `/ (root)`
+
+### Troubleshooting rapido
+
+- Si falla con `Failed to create deployment` o `Resource not accessible by integration`, usar deploy por rama `gh-pages` (workflow actual) y verificar que Pages tome esa rama.
+- Si no aparece `Build and deployment` en la UI, refrescar y revisar permisos del usuario admin del repo.
 
 ### Fallback 404 estatico
 

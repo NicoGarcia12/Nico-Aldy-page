@@ -18,18 +18,18 @@ Para Angular Material, cargar la skill `angular-material` por separado.
 
 **ANTES de implementar cualquier patrón**, leer `package.json` del proyecto y verificar:
 
-| Feature | Versión mínima | Estable desde |
-|---------|---------------|---------------|
-| Standalone components | 14.0 | 15.2 |
-| `inject()` function | 14.0 | 15.0 |
-| Signals (`signal`, `computed`, `effect`) | 16.0 | 17.0 |
-| Signal inputs (`input()`, `input.required()`) | 17.1 | 17.2 |
-| Signal outputs (`output()`) | 17.3 | 17.3 |
-| `takeUntilDestroyed()` | 16.0 | 16.0 |
-| Deferrable views (`@defer`) | 17.0 | 17.0 |
-| Control flow (`@if`, `@for`, `@switch`) | 17.0 | 17.0 |
-| `linkedSignal` | 19.0 | 19.0 |
-| `resource()` / `rxResource()` | 19.0 | 19.0 |
+| Feature                                       | Versión mínima | Estable desde |
+| --------------------------------------------- | -------------- | ------------- |
+| Standalone components                         | 14.0           | 15.2          |
+| `inject()` function                           | 14.0           | 15.0          |
+| Signals (`signal`, `computed`, `effect`)      | 16.0           | 17.0          |
+| Signal inputs (`input()`, `input.required()`) | 17.1           | 17.2          |
+| Signal outputs (`output()`)                   | 17.3           | 17.3          |
+| `takeUntilDestroyed()`                        | 16.0           | 16.0          |
+| Deferrable views (`@defer`)                   | 17.0           | 17.0          |
+| Control flow (`@if`, `@for`, `@switch`)       | 17.0           | 17.0          |
+| `linkedSignal`                                | 19.0           | 19.0          |
+| `resource()` / `rxResource()`                 | 19.0           | 19.0          |
 
 **No recomendar patterns de versiones futuras.** Consultar Context7 si hay dudas sobre
 si una API existe en la versión instalada.
@@ -40,14 +40,14 @@ si una API existe en la versión instalada.
 
 ### Sufijos por rol
 
-| Sufijo | Capa | Uso |
-|--------|------|-----|
-| `UseCase` | Aplicación | Caso de uso con lógica de negocio u orquestación |
-| `Repository` / `RepositoryPort` | Aplicación (port) / Infra (impl) | Acceso a datos con contrato abstracto |
-| `Adapter` | Infraestructura | Implementación concreta de un port externo |
-| `Mapper` | Infraestructura | Transformación entre DTOs y entidades de dominio |
-| `Facade` | Presentación | Interfaz simplificada entre UI y aplicación |
-| `Controller` | Presentación | Solo si hay API REST (no en SPAs típicas) |
+| Sufijo                          | Capa                             | Uso                                              |
+| ------------------------------- | -------------------------------- | ------------------------------------------------ |
+| `UseCase`                       | Aplicación                       | Caso de uso con lógica de negocio u orquestación |
+| `Repository` / `RepositoryPort` | Aplicación (port) / Infra (impl) | Acceso a datos con contrato abstracto            |
+| `Adapter`                       | Infraestructura                  | Implementación concreta de un port externo       |
+| `Mapper`                        | Infraestructura                  | Transformación entre DTOs y entidades de dominio |
+| `Facade`                        | Presentación                     | Interfaz simplificada entre UI y aplicación      |
+| `Controller`                    | Presentación                     | Solo si hay API REST (no en SPAs típicas)        |
 
 ### Convenciones de nombres
 
@@ -76,95 +76,101 @@ feature-name/
 ### Ejemplo: Facade con Signals
 
 ```typescript
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, signal } from "@angular/core";
 
 interface Balance {
-    attributes: { amount: number };
+  attributes: { amount: number };
 }
 
 interface LoadBalancesUseCase {
-    execute(): import('rxjs').Observable<Balance[]>;
+  execute(): import("rxjs").Observable<Balance[]>;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BalanceDashboardFacade {
-    private readonly balancesSignal = signal<Balance[]>([]);
-    private readonly loadingSignal = signal<boolean>(true);
+  private readonly balancesSignal = signal<Balance[]>([]);
+  private readonly loadingSignal = signal<boolean>(true);
 
-    public readonly balances = this.balancesSignal.asReadonly();
-    public readonly loading = this.loadingSignal.asReadonly();
-    public readonly hasAnyBalance = computed(() =>
-        this.balancesSignal().some((b: Balance) => b.attributes.amount > 0)
-    );
+  public readonly balances = this.balancesSignal.asReadonly();
+  public readonly loading = this.loadingSignal.asReadonly();
+  public readonly hasAnyBalance = computed(() =>
+    this.balancesSignal().some((b: Balance) => b.attributes.amount > 0),
+  );
 
-    public constructor(private readonly loadBalancesUseCase: LoadBalancesUseCase) {}
+  public constructor(
+    private readonly loadBalancesUseCase: LoadBalancesUseCase,
+  ) {}
 
-    public load(): void {
-        this.loadingSignal.set(true);
-        this.loadBalancesUseCase.execute().subscribe({
-            next: (balances: Balance[]) => {
-                this.balancesSignal.set(balances);
-                this.loadingSignal.set(false);
-            },
-            error: () => this.loadingSignal.set(false)
-        });
-    }
+  public load(): void {
+    this.loadingSignal.set(true);
+    this.loadBalancesUseCase.execute().subscribe({
+      next: (balances: Balance[]) => {
+        this.balancesSignal.set(balances);
+        this.loadingSignal.set(false);
+      },
+      error: () => this.loadingSignal.set(false),
+    });
+  }
 }
 ```
 
 ### Ejemplo: Use Case
 
 ```typescript
-import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable, map } from "rxjs";
 
 interface BalanceRepository {
-    getBalances(): Observable<number[]>;
+  getBalances(): Observable<number[]>;
 }
 
 interface BalanceSummary {
-    total: number;
-    count: number;
+  total: number;
+  count: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class GetBalanceSummaryUseCase {
-    public constructor(private readonly balanceRepository: BalanceRepository) {}
+  public constructor(private readonly balanceRepository: BalanceRepository) {}
 
-    public execute(): Observable<BalanceSummary> {
-        return this.balanceRepository.getBalances().pipe(
-            map((balances: number[]) => ({
-                total: balances.reduce((sum: number, v: number) => sum + v, 0),
-                count: balances.length
-            }))
-        );
-    }
+  public execute(): Observable<BalanceSummary> {
+    return this.balanceRepository.getBalances().pipe(
+      map((balances: number[]) => ({
+        total: balances.reduce((sum: number, v: number) => sum + v, 0),
+        count: balances.length,
+      })),
+    );
+  }
 }
 ```
 
 ### Ejemplo: Repository Port + Implementación
 
 ```typescript
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
-interface BalanceDto { amount: number; }
+interface BalanceDto {
+  amount: number;
+}
 
 // Port (capa de aplicación)
 export abstract class BalanceRepositoryPort {
-    public abstract getBalances(): Observable<BalanceDto[]>;
+  public abstract getBalances(): Observable<BalanceDto[]>;
 }
 
 // Implementación (capa de infraestructura)
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class HttpBalanceRepository extends BalanceRepositoryPort {
-    private readonly endpoint: string = '/api/balances';
+  private readonly endpoint: string = "/api/balances";
 
-    public constructor(private readonly http: HttpClient) { super(); }
+  public constructor(private readonly http: HttpClient) {
+    super();
+  }
 
-    public getBalances(): Observable<BalanceDto[]> {
-        return this.http.get<BalanceDto[]>(this.endpoint);
-    }
+  public getBalances(): Observable<BalanceDto[]> {
+    return this.http.get<BalanceDto[]>(this.endpoint);
+  }
 }
 ```
 
@@ -181,72 +187,84 @@ Para agregar features nuevas, aplicar siempre **TDD (Red → Green → Refactor)
 3. **REFACTOR**: mejorar estructura/nombres manteniendo tests en verde.
 
 Regla operativa:
+
 - No arrancar por UI/servicio sin tener al menos un test de comportamiento escrito para la feature.
 
 ### Patrón Smart / Dumb
 
-| Tipo | Responsabilidad | Inyecta servicios | Ejemplo |
-|------|----------------|-------------------|---------|
-| **Smart** (container) | Orquesta datos, delega en Facade/UseCase | Sí | `balance-dashboard.component.ts` |
-| **Dumb** (presentational) | Recibe inputs, emite outputs, cero lógica de negocio | No | `balance-card.component.ts` |
+| Tipo                      | Responsabilidad                                      | Inyecta servicios | Ejemplo                          |
+| ------------------------- | ---------------------------------------------------- | ----------------- | -------------------------------- |
+| **Smart** (container)     | Orquesta datos, delega en Facade/UseCase             | Sí                | `balance-dashboard.component.ts` |
+| **Dumb** (presentational) | Recibe inputs, emite outputs, cero lógica de negocio | No                | `balance-card.component.ts`      |
 
 ### Componente Dumb con Signal Inputs (Angular 17.2+)
 
 ```typescript
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 @Component({
-    selector: 'app-balance-card',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        <div class="card">
-            <h3>{{ title() }}</h3>
-            <p>{{ amount() | currency }}</p>
-            <button (click)="selected.emit(amount())">Ver detalle</button>
-        </div>
-    `
+  selector: "app-balance-card",
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="card">
+      <h3>{{ title() }}</h3>
+      <p>{{ amount() | currency }}</p>
+      <button (click)="selected.emit(amount())">Ver detalle</button>
+    </div>
+  `,
 })
 export class BalanceCardComponent {
-    public readonly title = input.required<string>();
-    public readonly amount = input<number>(0);
-    public readonly selected = output<number>();
+  public readonly title = input.required<string>();
+  public readonly amount = input<number>(0);
+  public readonly selected = output<number>();
 }
 ```
 
 ### Componente Smart con Facade
 
 ```typescript
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 @Component({
-    selector: 'app-balance-dashboard',
-    standalone: true,
-    imports: [BalanceCardComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-        @if (facade.loading()) {
-            <p>Cargando...</p>
-        } @else {
-            @for (balance of facade.balances(); track balance.id) {
-                <app-balance-card
-                    [title]="balance.name"
-                    [amount]="balance.amount"
-                    (selected)="onSelected($event)" />
-            }
-        }
-    `
+  selector: "app-balance-dashboard",
+  standalone: true,
+  imports: [BalanceCardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (facade.loading()) {
+      <p>Cargando...</p>
+    } @else {
+      @for (balance of facade.balances(); track balance.id) {
+        <app-balance-card
+          [title]="balance.name"
+          [amount]="balance.amount"
+          (selected)="onSelected($event)"
+        />
+      }
+    }
+  `,
 })
 export class BalanceDashboardComponent implements OnInit {
-    protected readonly facade = inject(BalanceDashboardFacade);
+  protected readonly facade = inject(BalanceDashboardFacade);
 
-    public ngOnInit(): void {
-        this.facade.load();
-    }
+  public ngOnInit(): void {
+    this.facade.load();
+  }
 
-    protected onSelected(amount: number): void {
-        console.log('Seleccionado:', amount);
-    }
+  protected onSelected(amount: number): void {
+    console.log("Seleccionado:", amount);
+  }
 }
 ```
 
@@ -286,12 +304,12 @@ Si el repo ya trae reglas de Prettier/ESLint, esas reglas prevalecen.
 
 ### Conceptos clave
 
-| Concepto | Descripción |
-|----------|-------------|
-| **File-based routing** | Archivos en `src/app/pages/` mapean a rutas automáticamente |
-| **API routes** | Archivos en `src/server/routes/` generan endpoints del servidor |
-| **Content collections** | Markdown/MDX para contenido estático tipado |
-| **Vite-powered** | Build con Vite en lugar de webpack |
+| Concepto                | Descripción                                                     |
+| ----------------------- | --------------------------------------------------------------- |
+| **File-based routing**  | Archivos en `src/app/pages/` mapean a rutas automáticamente     |
+| **API routes**          | Archivos en `src/server/routes/` generan endpoints del servidor |
+| **Content collections** | Markdown/MDX para contenido estático tipado                     |
+| **Vite-powered**        | Build con Vite en lugar de webpack                              |
 
 ### Estructura Analog.js
 
@@ -326,6 +344,32 @@ src/
 
 ---
 
+## Parte 4 — SPA estatica (GitHub Pages)
+
+### Checklist de deploy
+
+- Definir estrategia de rutas: `withHashLocation()` cuando no hay rewrites de servidor.
+- Build para project pages con `--base-href /<repo>/`.
+- Confirmar que assets se referencien en forma relativa (`assets/...`).
+- Incluir `404.html` estatico si el hosting lo requiere para fallback.
+
+### Errores frecuentes
+
+- Pantalla en blanco en Pages: `base-href` en `/` en lugar de `/<repo>/`.
+- 404 al refrescar deep link: falta hash routing o fallback del host.
+
+---
+
+## Parte 5 — Media autoplay policy
+
+- Los navegadores bloquean autoplay sin gesto de usuario.
+- Para audio de fondo en SPA:
+  1. iniciar con gesto de usuario,
+  2. encapsular en servicio singleton,
+  3. respetar pausa manual (`pausedByUser`) para no reactivar sin consentimiento.
+
+---
+
 ## Checklist antes de hacer PR
 
 - [ ] `package.json` verificado — no se usan features de versiones futuras
@@ -338,6 +382,7 @@ src/
 ## Referencias
 
 Siempre consultar documentación actualizada via Context7 antes de asumir APIs:
+
 - Angular Components → Context7 con la versión del proyecto
 - Angular Signals → Context7
 - Analog.js → Context7

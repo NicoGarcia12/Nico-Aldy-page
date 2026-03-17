@@ -49,6 +49,7 @@ Cargá las skills relevantes antes de escribir código.
 ## Principios de implementación
 
 ### Componentes
+
 - Siempre **standalone** (sin NgModules)
 - **Signals** para estado local (`signal()`, `computed()`, `effect()`)
 - **Smart/Dumb pattern**: Smart components inyectan servicios, Dumb components reciben inputs y emiten outputs
@@ -58,30 +59,48 @@ Cargá las skills relevantes antes de escribir código.
 - Cada componente usa archivos separados: `*.component.ts`, `*.component.html`, `*.component.scss` (no usar template/styles inline salvo excepcion explicitamente pedida).
 
 ### Servicios
+
 - Un servicio por dominio/feature
 - Ports como interfaces abstractas, adapters como implementaciones concretas
 - `inject()` function en vez de constructor injection
 
 ### Formularios
+
 - Reactive Forms con tipado estricto (`FormGroup<T>`)
 - Validación sincrónica en el form, async en el servicio
 - `aria-invalid`, `aria-describedby` para accesibilidad
 
 ### Routing
+
 - Lazy loading con `loadComponent` / `loadChildren`
 - Guards funcionales
 - Resolvers tipados
+- Si el objetivo es hosting estatico (GitHub Pages/Netlify sin rewrites), priorizar `withHashLocation()` o documentar fallback equivalente.
+
+### Deploy estatico (GitHub Pages)
+
+- Verificar `base-href` del build para `/<repo>/` en project pages.
+- Confirmar que los assets no usen rutas absolutas invalidas para subpath.
+- Si el repo no permite API de Pages por permisos, usar deploy a rama `gh-pages`.
+
+### Media (audio/video)
+
+- No asumir autoplay en `ngOnInit`: usar gesto de usuario (`click`/`mousemove`/`touchstart`).
+- Si la app es SPA y debe mantener audio entre rutas, centralizar player en servicio singleton (`providedIn: 'root'`).
 
 ### Estilos
+
 - Soporte para Angular Material, Tailwind CSS o Bootstrap según el proyecto
 - Responsive con CSS Grid / Flexbox
 - Theming via CSS custom properties
 
 ### Lint y Prettier
+
 - Respetar las reglas del repo. Si no estan definidas, aplicar esta baseline explicita de Prettier: `singleQuote: true`, `printWidth: 140`, `tabWidth: 4`, `trailingComma: none`, `endOfLine: lf`.
 - Nunca mezclar estilos en un mismo PR: mantener formato consistente en todos los archivos tocados.
 
 ### Analog.js (si el proyecto lo usa)
+
 - SSR/SSG con Analog
 - File-based routing
 - Markdown content support
