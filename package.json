@@ -14,7 +14,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "e2e": "start-server-and-test \"npm run start -- --port 4201\" http://localhost:4201 \"cypress run --config baseUrl=http://localhost:4201\""
+    "e2e": "cypress run"
   },
   "private": true,
   "dependencies": {

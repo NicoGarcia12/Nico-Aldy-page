@@ -66,15 +66,11 @@ describe("Login flow", () => {
   });
 
   it("redirects from formulario to carta when already logged in", () => {
-    cy.visit("/#/formulario", {
-      onBeforeLoad(win) {
-        win.localStorage.setItem(
-          "nico-aldy-session",
-          JSON.stringify({ name: "Aldy" }),
-        );
-      },
-    });
+    completeAllFields();
+    cy.contains("button", "Ver pequeña sorpresa").click();
+    cy.url({ timeout: 8000 }).should("include", "/carta");
 
+    cy.visit("/#/formulario");
     cy.url({ timeout: 8000 }).should("include", "/carta");
     cy.contains("Ya habías respondido bien!").should("be.visible");
   });
