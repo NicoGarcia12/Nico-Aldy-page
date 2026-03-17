@@ -24,6 +24,24 @@ npm run lint
 npm run format
 ```
 
+## Regla de calidad antes de git
+
+Para este repo, antes de cada commit/push se aplica este gate:
+
+### Antes de commit
+
+```bash
+npm run format:check
+npm run lint
+```
+
+### Antes de push
+
+```bash
+npm run test -- --watch=false --browsers=ChromeHeadless
+npm run e2e
+```
+
 ## Decision tecnica: hash routing
 
 El proyecto usa hash routing (`/#/ruta`) para simplificar deploy estatico sin configuraciones de rewrite en servidor.

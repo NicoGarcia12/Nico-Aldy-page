@@ -23,23 +23,23 @@ Siempre responde en español (argentino, con vos).
 
 Analiza el pedido del usuario y delega segun esta tabla:
 
-| Tipo de pedido | Subagente | Ejemplo |
-|----------------|-----------|---------|
-| Planificar, estimar, definir alcance | `@planner` | "necesito planificar la feature X" |
-| Componentes, UI, formularios, ruteo Angular, Analog.js | `@angular-dev` | "arregla este componente Angular", "agrega una ruta" |
-| Componentes React, Next.js, Redux, hooks | `@react-dev` | "crea un componente React", "configura Redux" |
-| API Express, endpoints, middleware, auth con Prisma/Sequelize | `@express-dev` | "agrega un endpoint de usuarios" |
-| API NestJS, modules, services, guards, pipes | `@nestjs-dev` | "crea un module en NestJS" |
-| Java, Spring Boot, Maven, JPA | `@java-dev` | "agrega un controller Spring Boot" |
-| Python, FastAPI, Flask, scripts | `@python-dev` | "crea un script en Python" |
-| Sitios Astro, content collections, islands | `@astro-dev` | "crea una pagina en Astro" |
-| Tests unitarios (Jest) o e2e (Cypress/Playwright) | `@test-qa` | "correme los tests", "escribi tests para X" |
-| Revisar codigo, buscar bugs, deuda tecnica | `@code-review` | "revisa este PR", "hay algo mal aca?" |
-| Vulnerabilidades, seguridad, OWASP | `@security-auditor` | "hay vulnerabilidades?", "revisa los headers" |
-| Docker, CI/CD, deploy, GitHub Actions, Vercel, Netlify, Railway | `@devops-deploy` | "dockeriza esto", "deploya a Vercel" |
-| Base de datos, schema, queries, indices, Prisma, Sequelize, migraciones | `@dba` | "optimiza esta query", "agrega un indice" |
-| Documentacion, ADR, changelog, runbooks, resumenes | `@technical-writer` | "documenta la API", "actualiza el changelog" |
-| CSS con Tailwind o Bootstrap | Agente del framework + skill de CSS | "estila este componente con Tailwind" |
+| Tipo de pedido                                                          | Subagente                           | Ejemplo                                              |
+| ----------------------------------------------------------------------- | ----------------------------------- | ---------------------------------------------------- |
+| Planificar, estimar, definir alcance                                    | `@planner`                          | "necesito planificar la feature X"                   |
+| Componentes, UI, formularios, ruteo Angular, Analog.js                  | `@angular-dev`                      | "arregla este componente Angular", "agrega una ruta" |
+| Componentes React, Next.js, Redux, hooks                                | `@react-dev`                        | "crea un componente React", "configura Redux"        |
+| API Express, endpoints, middleware, auth con Prisma/Sequelize           | `@express-dev`                      | "agrega un endpoint de usuarios"                     |
+| API NestJS, modules, services, guards, pipes                            | `@nestjs-dev`                       | "crea un module en NestJS"                           |
+| Java, Spring Boot, Maven, JPA                                           | `@java-dev`                         | "agrega un controller Spring Boot"                   |
+| Python, FastAPI, Flask, scripts                                         | `@python-dev`                       | "crea un script en Python"                           |
+| Sitios Astro, content collections, islands                              | `@astro-dev`                        | "crea una pagina en Astro"                           |
+| Tests unitarios (Jest) o e2e (Cypress/Playwright)                       | `@test-qa`                          | "correme los tests", "escribi tests para X"          |
+| Revisar codigo, buscar bugs, deuda tecnica                              | `@code-review`                      | "revisa este PR", "hay algo mal aca?"                |
+| Vulnerabilidades, seguridad, OWASP                                      | `@security-auditor`                 | "hay vulnerabilidades?", "revisa los headers"        |
+| Docker, CI/CD, deploy, GitHub Actions, Vercel, Netlify, Railway         | `@devops-deploy`                    | "dockeriza esto", "deploya a Vercel"                 |
+| Base de datos, schema, queries, indices, Prisma, Sequelize, migraciones | `@dba`                              | "optimiza esta query", "agrega un indice"            |
+| Documentacion, ADR, changelog, runbooks, resumenes                      | `@technical-writer`                 | "documenta la API", "actualiza el changelog"         |
+| CSS con Tailwind o Bootstrap                                            | Agente del framework + skill de CSS | "estila este componente con Tailwind"                |
 
 ## Uso de MCPs
 
@@ -67,10 +67,12 @@ Analiza el pedido del usuario y delega segun esta tabla:
 - Cuando el usuario pide algo generico como "ayudame con X", investiga brevemente antes de delegar para elegir el subagente correcto.
 - **Migraciones**: Cada agente de tecnologia maneja sus propias migraciones (no hay agente separado de migracion).
 - **Performance**: Cada agente de tecnologia maneja la performance de su stack (no hay agente separado de performance).
+- **Antes de push**: exigir quality gate del repo (format/lint/tipado/tests). Si el usuario pide commit+push, delegar verificaciones primero y empujar despues.
 
 ## Conocimiento del stack
 
 Carga de `knowledge/` o de MCP Memory el stack del proyecto actual antes de delegar:
+
 - Stack detectado (Angular version, Express version, etc.)
 - Arquitectura del proyecto
 - Decisiones previas relevantes

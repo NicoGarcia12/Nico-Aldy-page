@@ -47,6 +47,7 @@ Cargá las skills de testing relevantes antes de escribir o diagnosticar tests.
 ## Proceso
 
 ### Cuando te piden escribir tests:
+
 1. **Analizar el código fuente**: Leer el componente/servicio/endpoint a testear.
 2. **Identificar el stack**: Angular, React, Express, NestJS, Java, Python.
 3. **Cargar skills**: `testing-jest` para unitarios, `testing-e2e` para e2e, más la skill del framework.
@@ -55,6 +56,7 @@ Cargá las skills de testing relevantes antes de escribir o diagnosticar tests.
 6. **Ejecutar**: Correr los tests y verificar que pasan.
 
 ### Cuando te piden ejecutar y diagnosticar:
+
 1. **Ejecutar**: Correr los tests indicados.
 2. **Analizar fallos**: Tipo de error, stack trace, causa raíz.
 3. **Diagnosticar**: Usar la tabla de errores comunes.
@@ -63,40 +65,42 @@ Cargá las skills de testing relevantes antes de escribir o diagnosticar tests.
 
 ## Frameworks de testing por stack
 
-| Stack | Unit Testing | E2E |
-|-------|-------------|-----|
-| Angular | Jest + TestBed | Cypress / Playwright |
-| React / Next.js | Jest + React Testing Library | Cypress / Playwright |
-| Express | Jest + Supertest | Cypress / Playwright |
-| NestJS | Jest + @nestjs/testing | Supertest |
-| Java / Spring Boot | JUnit 5 + Mockito | - |
-| Python | pytest | - |
+| Stack              | Unit Testing                 | E2E                  |
+| ------------------ | ---------------------------- | -------------------- |
+| Angular            | Jest + TestBed               | Cypress / Playwright |
+| React / Next.js    | Jest + React Testing Library | Cypress / Playwright |
+| Express            | Jest + Supertest             | Cypress / Playwright |
+| NestJS             | Jest + @nestjs/testing       | Supertest            |
+| Java / Spring Boot | JUnit 5 + Mockito            | -                    |
+| Python             | pytest                       | -                    |
 
 ## Errores comunes y diagnóstico
 
-| Error | Stack | Diagnóstico |
-|-------|-------|-------------|
-| `NullInjectorError: No provider for X` | Angular | Falta mock en TestBed providers |
-| `Cannot find module` | Todos | Import path incorrecto o falta tsconfig path |
-| `Timeout - Async function did not complete` | Jest | Observable no completa, falta `of()` en mock |
-| `ExpressionChangedAfterItHasBeenChecked` | Angular | `detectChanges()` en momento incorrecto |
-| `connect ECONNREFUSED` | E2E | Backend no está corriendo |
-| `Element not found` | E2E | Selector incorrecto o elemento no renderizado |
-| `act() warning` | React | State update no wrapped en act() |
-| `not wrapped in act(...)` | React | Usar waitFor() de @testing-library/react |
+| Error                                       | Stack   | Diagnóstico                                   |
+| ------------------------------------------- | ------- | --------------------------------------------- |
+| `NullInjectorError: No provider for X`      | Angular | Falta mock en TestBed providers               |
+| `Cannot find module`                        | Todos   | Import path incorrecto o falta tsconfig path  |
+| `Timeout - Async function did not complete` | Jest    | Observable no completa, falta `of()` en mock  |
+| `ExpressionChangedAfterItHasBeenChecked`    | Angular | `detectChanges()` en momento incorrecto       |
+| `connect ECONNREFUSED`                      | E2E     | Backend no está corriendo                     |
+| `Element not found`                         | E2E     | Selector incorrecto o elemento no renderizado |
+| `act() warning`                             | React   | State update no wrapped en act()              |
+| `not wrapped in act(...)`                   | React   | Usar waitFor() de @testing-library/react      |
 
 ## Formato de reporte
 
-```markdown
+````markdown
 ## Resultado de tests
 
 ### Resumen
+
 - Total: N | Pasaron: N | Fallaron: N | Skipped: N
 - Tiempo: Xs
 
 ### Tests fallidos
 
 #### 1. `NombreDelSuite > nombre del test`
+
 - **Error**: Mensaje de error
 - **Archivo**: `ruta/archivo.spec.ts:42`
 - **Causa**: Explicación breve
@@ -104,10 +108,14 @@ Cargá las skills de testing relevantes antes de escribir o diagnosticar tests.
   ```typescript
   // cambio sugerido
   ```
+````
+
 - **Tipo de fix**: test / código fuente
 
 ### Recomendaciones generales
+
 - ...
+
 ```
 
 ## Reglas
@@ -117,3 +125,16 @@ Cargá las skills de testing relevantes antes de escribir o diagnosticar tests.
 3. **Si hay más de 10 tests fallidos**, agrupar por tipo de error.
 4. **Mocks siempre tipados**. Nunca `as any` en un mock sin justificación.
 5. **Un test = un assert** como principio (excepto flujos e2e).
+
+## Quality gate de release/push
+
+Cuando el objetivo es push/deploy y el repo tiene tooling:
+
+1. Verificar format (`prettier --check` o equivalente).
+2. Verificar lint.
+3. Verificar tipado (`tsc --noEmit` o equivalente) cuando aplique.
+4. Correr unit tests.
+5. Correr e2e (Cypress/Playwright) si existen.
+
+Si falta algun comando en el repo, reportarlo explicitamente y continuar con los disponibles.
+```

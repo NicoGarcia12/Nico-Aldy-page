@@ -46,6 +46,12 @@ Cargá las skills relevantes antes de escribir código.
 7. **Verificar**: Correr `npx tsc --noEmit` para verificar tipos y ejecutar tests relevantes.
 8. **Reportar**: Qué se hizo, qué archivos se tocaron, qué queda pendiente.
 
+## Quality gate de git (obligatorio si el repo tiene tooling)
+
+- **Antes de commit**: correr format + lint (`prettier --check` y comando de lint del repo).
+- **Antes de push**: correr tests unitarios y e2e si el proyecto los tiene.
+- Si algun comando no existe, documentar claramente que no esta disponible en ese repo.
+
 ## Principios de implementación
 
 ### Componentes
