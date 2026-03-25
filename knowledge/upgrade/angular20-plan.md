@@ -130,3 +130,11 @@ git status --short --branch
 Criterio de salida:
 
 - PR listo con evidencia tecnica de baseline, migracion y validaciones.
+
+## CI post-upgrade
+
+- Se valido que el workflow `.github/workflows/ci.yml` ya ejecuta el quality gate requerido: `format:check`, `lint`, `typecheck` (`npx tsc --noEmit`), `build`, `test:ci` y `e2e:smoke`.
+- Se ajusto Node del runner de CI de `20` a `22` en los jobs `quality` y `e2e-smoke` para alinear el pipeline con el estado post-migracion a Angular 20 y politica LTS N/N-1.
+- Se mantuvo `ubuntu-latest` sin cambios.
+- Se mantuvo `Format check (informativo)` con `continue-on-error: true` para no bloquear PRs por estilo durante la estabilizacion de la migracion. Esta decision prioriza señales de calidad funcional (lint/typecheck/build/tests) sobre formato.
+- No se modifico deploy productivo (`deploy-gh-pages.yml`) porque no hay bloqueo grave ni dependencia directa de este ajuste.
