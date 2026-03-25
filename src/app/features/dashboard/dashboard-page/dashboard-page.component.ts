@@ -1,14 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { filter } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
 import { MusicPlayerService } from '../../../core/media/music-player.service';
@@ -33,13 +33,11 @@ interface Notice {
   styleUrl: './dashboard-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardPageComponent implements OnInit, OnDestroy {
+export class DashboardPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly musicPlayer = inject(MusicPlayerService);
   private readonly flashMessage = inject(FlashMessageService);
   private readonly router = inject(Router);
-  private navigationSubscription: Subscription | null = null;
-
   readonly session = this.authService.getSession();
   readonly notice = signal<Notice | null>(null);
   readonly isMusicPlaying = this.musicPlayer.isPlaying;
@@ -47,15 +45,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showFlashMessage();
 
-    this.navigationSubscription = this.router.events
+    this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(takeUntilDestroyed())
       .subscribe(() => this.showFlashMessage());
-  }
-
-  ngOnDestroy(): void {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
   }
 
   logout(): void {

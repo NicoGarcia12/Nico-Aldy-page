@@ -1,10 +1,11 @@
 <section class="not-found-page">
-  <app-notice-toast
-    *ngIf="showNotice()"
-    type="success"
-    [message]="noticeMessage()"
-    [floating]="true"
-  />
+  @if (showNotice()) {
+    <app-notice-toast
+      type="success"
+      [message]="noticeMessage()"
+      [floating]="true"
+    />
+  }
 
   <section class="not-found-card">
     <img src="assets/illustrations/avocado-404.png" alt="Palta 404" />

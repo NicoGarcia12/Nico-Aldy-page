@@ -1,11 +1,12 @@
 <section class="dashboard-page">
   <section class="dashboard-card">
-    <app-notice-toast
-      *ngIf="notice() as alert"
-      [type]="alert.type"
-      [message]="alert.message"
-      [floating]="true"
-    />
+    @if (notice(); as alert) {
+      <app-notice-toast
+        [type]="alert.type"
+        [message]="alert.message"
+        [floating]="true"
+      />
+    }
 
     <article class="letter-paper">
       <h2>Amor en modo distancia</h2>
