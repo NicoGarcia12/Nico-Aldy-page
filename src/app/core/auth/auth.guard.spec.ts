@@ -1,0 +1,90 @@
+import { TestBed } from '@angular/core/testing';
+import {
+  ActivatedRouteSnapshot,
+  provideRouter,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+
+import { FlashMessageService } from '../ui/flash-message.service';
+import { AuthService } from './auth.service';
+import { authGuard, guestGuard } from './auth.guard';
+
+describe('auth/guest guards', () => {
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let flashMessageSpy: jasmine.SpyObj<FlashMessageService>;
+  let router: Router;
+  const routeSnapshot = new ActivatedRouteSnapshot();
+  const routerStateSnapshot = { url: '/carta' } as RouterStateSnapshot;
+
+  beforeEach(() => {
+    authServiceSpy = jasmine.createSpyObj<AuthService>('AuthService', [
+      'isAuthenticated',
+    ]);
+    flashMessageSpy = jasmine.createSpyObj<FlashMessageService>(
+      'FlashMessageService',
+      ['set'],
+    );
+
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: FlashMessageService, useValue: flashMessageSpy },
+      ],
+    });
+
+    router = TestBed.inject(Router);
+  });
+
+  it('authGuard permite navegación cuando hay sesión', () => {
+    authServiceSpy.isAuthenticated.and.returnValue(true);
+
+    const result = TestBed.runInInjectionContext(() =>
+      authGuard(routeSnapshot, routerStateSnapshot),
+    );
+
+    expect(result).toBeTrue();
+    expect(flashMessageSpy.set).not.toHaveBeenCalled();
+  });
+
+  it('authGuard redirige a /formulario si no hay sesión', () => {
+    authServiceSpy.isAuthenticated.and.returnValue(false);
+
+    const result = TestBed.runInInjectionContext(() =>
+      authGuard(routeSnapshot, routerStateSnapshot),
+    );
+
+    expect(router.serializeUrl(result as UrlTree)).toBe('/formulario');
+    expect(flashMessageSpy.set).toHaveBeenCalledWith({
+      type: 'info',
+      message: 'Respondé primero unas cositas...',
+    });
+  });
+
+  it('guestGuard permite navegación cuando no hay sesión', () => {
+    authServiceSpy.isAuthenticated.and.returnValue(false);
+
+    const result = TestBed.runInInjectionContext(() =>
+      guestGuard(routeSnapshot, routerStateSnapshot),
+    );
+
+    expect(result).toBeTrue();
+    expect(flashMessageSpy.set).not.toHaveBeenCalled();
+  });
+
+  it('guestGuard redirige a /carta si ya está autenticado', () => {
+    authServiceSpy.isAuthenticated.and.returnValue(true);
+
+    const result = TestBed.runInInjectionContext(() =>
+      guestGuard(routeSnapshot, routerStateSnapshot),
+    );
+
+    expect(router.serializeUrl(result as UrlTree)).toBe('/carta');
+    expect(flashMessageSpy.set).toHaveBeenCalledWith({
+      type: 'success',
+      message: 'Ya habías respondido bien!',
+    });
+  });
+});
