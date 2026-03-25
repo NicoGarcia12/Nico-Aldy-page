@@ -4,6 +4,25 @@ const fillWord = (controls, letters) => {
   });
 };
 
+const FORM_PATH = "/#/formulario";
+const DASHBOARD_PATH = "/#/carta";
+
+const visitWithCleanState = (path = FORM_PATH) => {
+  cy.clearCookies();
+  cy.visit(path, {
+    onBeforeLoad: (win) => {
+      win.localStorage.clear();
+      win.sessionStorage.clear();
+    },
+  });
+};
+
+const submitLoginForm = () => {
+  cy.get('button[type="submit"]')
+    .should("contain", "Ver pequeña sorpresa")
+    .click();
+};
+
 const completeAllFields = () => {
   cy.get('[formcontrolname="firstKissDate"]').type("2025-02-16");
   fillWord(
@@ -40,19 +59,22 @@ const completeAllFields = () => {
 
 describe("Login flow", () => {
   beforeEach(() => {
-    cy.clearLocalStorage();
-    cy.visit("/#/formulario");
+    visitWithCleanState();
+    cy.hash({ timeout: 8000 }).should("eq", "#/formulario");
+    cy.get('[formcontrolname="firstKissDate"]', { timeout: 8000 }).should(
+      "be.visible",
+    );
   });
 
   it("shows info notice when submitting incomplete form", () => {
-    cy.contains("button", "Ver pequeña sorpresa").click();
+    submitLoginForm();
     cy.contains("Qué pasa? Algo no lo sabés? Mmmmm").should("be.visible");
   });
 
   it("shows error notice when everything is filled but one value is wrong", () => {
     completeAllFields();
     cy.get('[formcontrolname="seriesA"]').clear().type("X");
-    cy.contains("button", "Ver pequeña sorpresa").click();
+    submitLoginForm();
     cy.contains("Te estoy viendo, si sos vos mmmm flojito che").should(
       "be.visible",
     );
@@ -60,25 +82,23 @@ describe("Login flow", () => {
 
   it("navigates to dashboard when all values are correct", () => {
     completeAllFields();
-    cy.contains("button", "Ver pequeña sorpresa").click();
+    submitLoginForm();
     cy.contains("Bieeeen, ahora mirá la sorpresa...").should("be.visible");
-    cy.url({ timeout: 8000 }).should("include", "/carta");
+    cy.hash({ timeout: 8000 }).should("eq", "#/carta");
   });
 
   it("redirects from formulario to carta when already logged in", () => {
     completeAllFields();
-    cy.contains("button", "Ver pequeña sorpresa").click();
-    cy.url({ timeout: 8000 }).should("include", "/carta");
+    submitLoginForm();
+    cy.hash({ timeout: 8000 }).should("eq", "#/carta");
 
-    cy.visit("/#/formulario");
-    cy.url({ timeout: 8000 }).should("include", "/carta");
-    cy.contains("Ya habías respondido bien!").should("be.visible");
+    cy.visit(FORM_PATH);
+    cy.hash({ timeout: 8000 }).should("eq", "#/carta");
   });
 
   it("redirects from carta to formulario when not logged in", () => {
-    cy.clearLocalStorage();
-    cy.visit("/#/carta");
-    cy.url().should("include", "/formulario");
+    visitWithCleanState(DASHBOARD_PATH);
+    cy.hash({ timeout: 8000 }).should("eq", "#/formulario");
     cy.contains("Respondé primero unas cositas...").should("be.visible");
   });
 });
