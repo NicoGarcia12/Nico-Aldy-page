@@ -15,27 +15,22 @@ import { DashboardPageComponent } from './dashboard-page.component';
 describe('DashboardPageComponent', () => {
   let component: DashboardPageComponent;
   let fixture: ComponentFixture<DashboardPageComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let flashMessageSpy: jasmine.SpyObj<FlashMessageService>;
-  let musicPlayerSpy: jasmine.SpyObj<Pick<MusicPlayerService, 'toggle'>>;
+  let authServiceSpy: jest.Mocked<Pick<AuthService, 'logout' | 'getSession'>>;
+  let flashMessageSpy: jest.Mocked<Pick<FlashMessageService, 'consume'>>;
+  let musicPlayerSpy: jest.Mocked<Pick<MusicPlayerService, 'toggle'>>;
   let router: Router;
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj<AuthService>('AuthService', [
-      'logout',
-      'getSession',
-    ]);
-    authServiceSpy.getSession.and.returnValue({ name: 'Aldy' });
-    flashMessageSpy = jasmine.createSpyObj<FlashMessageService>(
-      'FlashMessageService',
-      ['consume'],
-    );
-    flashMessageSpy.consume.and.returnValue(null);
-    musicPlayerSpy = jasmine.createSpyObj<Pick<MusicPlayerService, 'toggle'>>(
-      'MusicPlayerService',
-      ['toggle'],
-    );
-    musicPlayerSpy.toggle.and.returnValue(Promise.resolve());
+    authServiceSpy = {
+      logout: jest.fn(),
+      getSession: jest.fn().mockReturnValue({ name: 'Aldy' }),
+    };
+    flashMessageSpy = {
+      consume: jest.fn().mockReturnValue(null),
+    };
+    musicPlayerSpy = {
+      toggle: jest.fn().mockResolvedValue(undefined),
+    };
 
     await TestBed.configureTestingModule({
       imports: [DashboardPageComponent],
@@ -60,16 +55,19 @@ describe('DashboardPageComponent', () => {
   });
 
   it('ejecuta logout y redirige al formulario', () => {
-    const navigateSpy = spyOn(router, 'navigateByUrl').and.resolveTo(true);
+    const navigateSpy = jest
+      .spyOn(router, 'navigateByUrl')
+      .mockResolvedValue(true);
 
     component.logout();
 
     expect(authServiceSpy.logout).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledOnceWith('/formulario');
+    expect(navigateSpy).toHaveBeenCalledTimes(1);
+    expect(navigateSpy).toHaveBeenCalledWith('/formulario');
   });
 
   it('muestra notice cuando el flash coincide y lo oculta por timeout', fakeAsync(() => {
-    flashMessageSpy.consume.and.returnValue({
+    flashMessageSpy.consume.mockReturnValue({
       type: 'success',
       message: 'Ya habías respondido bien!',
     });
@@ -85,7 +83,7 @@ describe('DashboardPageComponent', () => {
   }));
 
   it('ignora flash messages con texto distinto al esperado', () => {
-    flashMessageSpy.consume.and.returnValue({
+    flashMessageSpy.consume.mockReturnValue({
       type: 'success',
       message: 'Otro mensaje',
     });

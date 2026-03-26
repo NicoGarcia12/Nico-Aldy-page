@@ -20,7 +20,7 @@ describe('AuthService', () => {
   it('guarda sesión cuando el login coincide con la referencia', () => {
     const loginResult = service.login({ ...LOGIN_REFERENCE_DATA });
 
-    expect(loginResult).toBeTrue();
+    expect(loginResult).toBe(true);
     expect(localStorage.getItem(AUTH_SESSION_KEY)).toBe('{"name":"Aldy"}');
   });
 
@@ -32,7 +32,7 @@ describe('AuthService', () => {
 
     const loginResult = service.login(invalidPayload);
 
-    expect(loginResult).toBeFalse();
+    expect(loginResult).toBe(false);
     expect(localStorage.getItem(AUTH_SESSION_KEY)).toBeNull();
   });
 
@@ -47,8 +47,8 @@ describe('AuthService', () => {
 
     const loginResult = service.login(payload);
 
-    expect(loginResult).toBeTrue();
-    expect(service.isAuthenticated()).toBeTrue();
+    expect(loginResult).toBe(true);
+    expect(service.isAuthenticated()).toBe(true);
   });
 
   it('logout elimina la sesión persistida', () => {
@@ -63,13 +63,13 @@ describe('AuthService', () => {
     localStorage.setItem(AUTH_SESSION_KEY, '{invalid-json}');
 
     expect(service.getSession()).toBeNull();
-    expect(service.isAuthenticated()).toBeFalse();
+    expect(service.isAuthenticated()).toBe(false);
   });
 
   it('getSession devuelve null cuando falta nombre válido', () => {
     localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify({ name: '   ' }));
 
     expect(service.getSession()).toBeNull();
-    expect(service.isAuthenticated()).toBeFalse();
+    expect(service.isAuthenticated()).toBe(false);
   });
 });

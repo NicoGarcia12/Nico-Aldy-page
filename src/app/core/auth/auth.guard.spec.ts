@@ -12,20 +12,19 @@ import { AuthService } from './auth.service';
 import { authGuard, guestGuard } from './auth.guard';
 
 describe('auth/guest guards', () => {
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let flashMessageSpy: jasmine.SpyObj<FlashMessageService>;
+  let authServiceSpy: jest.Mocked<Pick<AuthService, 'isAuthenticated'>>;
+  let flashMessageSpy: jest.Mocked<Pick<FlashMessageService, 'set'>>;
   let router: Router;
   const routeSnapshot = new ActivatedRouteSnapshot();
   const routerStateSnapshot = { url: '/carta' } as RouterStateSnapshot;
 
   beforeEach(() => {
-    authServiceSpy = jasmine.createSpyObj<AuthService>('AuthService', [
-      'isAuthenticated',
-    ]);
-    flashMessageSpy = jasmine.createSpyObj<FlashMessageService>(
-      'FlashMessageService',
-      ['set'],
-    );
+    authServiceSpy = {
+      isAuthenticated: jest.fn(),
+    };
+    flashMessageSpy = {
+      set: jest.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -39,18 +38,18 @@ describe('auth/guest guards', () => {
   });
 
   it('authGuard permite navegación cuando hay sesión', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(true);
+    authServiceSpy.isAuthenticated.mockReturnValue(true);
 
     const result = TestBed.runInInjectionContext(() =>
       authGuard(routeSnapshot, routerStateSnapshot),
     );
 
-    expect(result).toBeTrue();
+    expect(result).toBe(true);
     expect(flashMessageSpy.set).not.toHaveBeenCalled();
   });
 
   it('authGuard redirige a /formulario si no hay sesión', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(false);
+    authServiceSpy.isAuthenticated.mockReturnValue(false);
 
     const result = TestBed.runInInjectionContext(() =>
       authGuard(routeSnapshot, routerStateSnapshot),
@@ -64,18 +63,18 @@ describe('auth/guest guards', () => {
   });
 
   it('guestGuard permite navegación cuando no hay sesión', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(false);
+    authServiceSpy.isAuthenticated.mockReturnValue(false);
 
     const result = TestBed.runInInjectionContext(() =>
       guestGuard(routeSnapshot, routerStateSnapshot),
     );
 
-    expect(result).toBeTrue();
+    expect(result).toBe(true);
     expect(flashMessageSpy.set).not.toHaveBeenCalled();
   });
 
   it('guestGuard redirige a /carta si ya está autenticado', () => {
-    authServiceSpy.isAuthenticated.and.returnValue(true);
+    authServiceSpy.isAuthenticated.mockReturnValue(true);
 
     const result = TestBed.runInInjectionContext(() =>
       guestGuard(routeSnapshot, routerStateSnapshot),

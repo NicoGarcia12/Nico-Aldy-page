@@ -16,9 +16,9 @@ import { LoginPageComponent } from './login-page.component';
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let flashMessageSpy: jasmine.SpyObj<FlashMessageService>;
-  let musicPlayerSpy: jasmine.SpyObj<Pick<MusicPlayerService, 'toggle'>>;
+  let authServiceSpy: jest.Mocked<Pick<AuthService, 'login'>>;
+  let flashMessageSpy: jest.Mocked<Pick<FlashMessageService, 'consume'>>;
+  let musicPlayerSpy: jest.Mocked<Pick<MusicPlayerService, 'toggle'>>;
   let router: Router;
 
   const fillValidForm = (): void => {
@@ -50,20 +50,15 @@ describe('LoginPageComponent', () => {
   };
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj<AuthService>('AuthService', [
-      'login',
-    ]);
-    authServiceSpy.login.and.returnValue(false);
-    flashMessageSpy = jasmine.createSpyObj<FlashMessageService>(
-      'FlashMessageService',
-      ['consume'],
-    );
-    flashMessageSpy.consume.and.returnValue(null);
-    musicPlayerSpy = jasmine.createSpyObj<Pick<MusicPlayerService, 'toggle'>>(
-      'MusicPlayerService',
-      ['toggle'],
-    );
-    musicPlayerSpy.toggle.and.returnValue(Promise.resolve());
+    authServiceSpy = {
+      login: jest.fn().mockReturnValue(false),
+    };
+    flashMessageSpy = {
+      consume: jest.fn().mockReturnValue(null),
+    };
+    musicPlayerSpy = {
+      toggle: jest.fn().mockResolvedValue(undefined),
+    };
 
     await TestBed.configureTestingModule({
       imports: [LoginPageComponent],
@@ -91,15 +86,17 @@ describe('LoginPageComponent', () => {
   it('muestra notice informativo si se envía un formulario inválido', () => {
     component.onSubmit();
 
-    expect(component.form.invalid).toBeTrue();
+    expect(component.form.invalid).toBe(true);
     expect(component.notice()?.type).toBe('info');
     expect(component.notice()?.message).toContain('Qué pasa?');
     expect(authServiceSpy.login).not.toHaveBeenCalled();
   });
 
   it('mapea las respuestas y navega a /carta cuando el login es válido', fakeAsync(() => {
-    authServiceSpy.login.and.returnValue(true);
-    const navigateSpy = spyOn(router, 'navigateByUrl').and.resolveTo(true);
+    authServiceSpy.login.mockReturnValue(true);
+    const navigateSpy = jest
+      .spyOn(router, 'navigateByUrl')
+      .mockResolvedValue(true);
     fillValidForm();
 
     component.onSubmit();
@@ -117,14 +114,17 @@ describe('LoginPageComponent', () => {
     expect(navigateSpy).not.toHaveBeenCalled();
 
     tick(1);
-    expect(navigateSpy).toHaveBeenCalledOnceWith('/carta');
+    expect(navigateSpy).toHaveBeenCalledTimes(1);
+    expect(navigateSpy).toHaveBeenCalledWith('/carta');
 
     flush();
   }));
 
   it('muestra error y no navega cuando el login falla', fakeAsync(() => {
-    authServiceSpy.login.and.returnValue(false);
-    const navigateSpy = spyOn(router, 'navigateByUrl').and.resolveTo(true);
+    authServiceSpy.login.mockReturnValue(false);
+    const navigateSpy = jest
+      .spyOn(router, 'navigateByUrl')
+      .mockResolvedValue(true);
     fillValidForm();
 
     component.onSubmit();
@@ -138,7 +138,7 @@ describe('LoginPageComponent', () => {
   }));
 
   it('renderiza el aviso consumido desde flash message en el template (@if)', () => {
-    flashMessageSpy.consume.and.returnValue({
+    flashMessageSpy.consume.mockReturnValue({
       type: 'info',
       message: 'Mensaje desde guard',
     });
