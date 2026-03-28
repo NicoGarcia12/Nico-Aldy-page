@@ -8,7 +8,7 @@
     "build:gh-pages": "ng build --configuration production --base-href /Nico-Aldy-page/",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
-    "lint": "eslint \"src/**/*.{ts,html}\" \"cypress/**/*.js\"",
+    "lint": "eslint \"src/**/*.{ts,html}\" \"cypress/**/*.{js,ts}\"",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\" \"scripts/**/*.mjs\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\" \"scripts/**/*.mjs\"",
@@ -46,8 +46,10 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "jest-preset-angular": "^16.1.1",
+    "jiti": "^2.6.1",
     "prettier": "^3.5.3",
     "start-server-and-test": "^2.0.8",
+    "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.26.1"
   }
