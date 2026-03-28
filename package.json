@@ -10,13 +10,17 @@
     "test": "jest",
     "lint": "eslint \"src/**/*.{ts,html}\" \"cypress/**/*.{js,ts}\"",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\" \"scripts/**/*.mjs\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\" \"scripts/**/*.mjs\"",
+    "format": "prettier --write \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"cypress/**/*.{js,ts}\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "e2e": "cypress run",
+    "start:ci": "ng serve --host 127.0.0.1 --port 4200 --no-open",
+    "typecheck": "tsc --noEmit",
+    "cypress:run:smoke": "cypress run --spec cypress/e2e/login-flow.cy.ts --browser electron",
     "test:ci": "jest --ci --runInBand --coverage",
-    "e2e:smoke": "node scripts/run-e2e-smoke.mjs"
+    "e2e:smoke": "concurrently -k -s first -n \"SMOKE,SERVER\" -c \"green,cyan\" \"wait-on http-get://127.0.0.1:4200 --timeout 120000 && npm run cypress:run:smoke\" \"npm run start:ci\"",
+    "validate:all": "npm run format:check && npm run lint && npm run typecheck && npm run build && npm run test:ci && npm run e2e:smoke"
   },
   "private": true,
   "dependencies": {
@@ -40,6 +44,7 @@
     "@angular/compiler-cli": "^20.3.18",
     "@eslint/js": "^9.22.0",
     "@types/jest": "^30.0.0",
+    "concurrently": "^9.2.1",
     "cypress": "^13.17.0",
     "eslint": "^9.22.0",
     "globals": "^15.15.0",
@@ -48,9 +53,9 @@
     "jest-preset-angular": "^16.1.1",
     "jiti": "^2.6.1",
     "prettier": "^3.5.3",
-    "start-server-and-test": "^2.0.8",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.26.1"
+    "typescript-eslint": "^8.26.1",
+    "wait-on": "^9.0.1"
   }
 }
