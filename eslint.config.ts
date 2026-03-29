@@ -1,13 +1,13 @@
-const js = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const angularEslint = require('@angular-eslint/eslint-plugin');
-const angularTemplate = require('@angular-eslint/eslint-plugin-template');
-const angularTemplateParser = require('@angular-eslint/template-parser');
-const globals = require('globals');
+import js from '@eslint/js';
+import angularEslint from '@angular-eslint/eslint-plugin';
+import angularTemplate from '@angular-eslint/eslint-plugin-template';
+import angularTemplateParser from '@angular-eslint/template-parser';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
-module.exports = [
+export default [
   {
-    ignores: ['dist/**', 'node_modules/**', '.angular/**', 'coverage/**']
+    ignores: ['dist/**', 'node_modules/**', '.angular/**', 'coverage/**'],
   },
   js.configs.recommended,
   {
@@ -16,20 +16,22 @@ module.exports = [
       parser: tseslint.parser,
       parserOptions: {
         project: ['tsconfig.json'],
-        tsconfigRootDir: __dirname
       },
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      '@angular-eslint': angularEslint
+      '@angular-eslint': angularEslint,
     },
     rules: {
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' },
+      ],
       'no-undef': 'off',
       eqeqeq: ['error', 'always'],
       curly: ['error', 'all'],
@@ -42,7 +44,15 @@ module.exports = [
       semi: ['error', 'always'],
       quotes: ['error', 'single', { avoidEscape: true }],
       indent: ['error', 2, { SwitchCase: 1 }],
-      'max-len': ['warn', { code: 140, ignoreComments: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
+      'max-len': [
+        'warn',
+        {
+          code: 140,
+          ignoreComments: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+        },
+      ],
       'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
@@ -56,31 +66,43 @@ module.exports = [
         {
           type: 'element',
           prefix: 'app',
-          style: 'kebab-case'
-        }
+          style: 'kebab-case',
+        },
       ],
       '@angular-eslint/directive-selector': [
         'error',
         {
           type: 'attribute',
           prefix: 'app',
-          style: 'camelCase'
-        }
-      ]
-    }
+          style: 'camelCase',
+        },
+      ],
+    },
   },
   {
     files: ['src/**/*.html'],
     languageOptions: {
-      parser: angularTemplateParser
+      parser: angularTemplateParser,
     },
     plugins: {
-      '@angular-eslint/template': angularTemplate
+      '@angular-eslint/template': angularTemplate,
     },
     rules: {
       '@angular-eslint/template/banana-in-box': 'error',
-      '@angular-eslint/template/no-negated-async': 'error'
-    }
+      '@angular-eslint/template/no-negated-async': 'error',
+    },
+  },
+  {
+    files: ['cypress/**/*.ts'],
+    languageOptions: {
+      parser: tseslint.parser,
+      globals: {
+        ...globals.browser,
+        ...globals.mocha,
+        cy: 'readonly',
+        Cypress: 'readonly',
+      },
+    },
   },
   {
     files: ['cypress/**/*.js'],
@@ -89,8 +111,8 @@ module.exports = [
         ...globals.browser,
         ...globals.mocha,
         cy: 'readonly',
-        Cypress: 'readonly'
-      }
-    }
-  }
+        Cypress: 'readonly',
+      },
+    },
+  },
 ];

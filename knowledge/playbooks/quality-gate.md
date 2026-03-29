@@ -6,15 +6,27 @@ Evitar subir cambios con problemas de formato, linting, tipado o tests rotos.
 
 ## Regla operativa
 
-### Antes de cada commit
+### Comando recomendado (single-entry)
+
+1. `npm run validate:all`
+
+Este comando encadena:
+
+1. `format:check`
+2. `lint`
+3. `typecheck` (`tsc --noEmit`)
+4. `build`
+5. `test:ci` (Jest)
+6. `e2e:smoke` (Cypress)
+
+### Fallback manual (si necesitás aislar una falla)
 
 1. `npm run format:check`
 2. `npm run lint`
-
-### Antes de cada push
-
-1. `npm run test -- --watch=false --browsers=ChromeHeadless`
-2. `npm run e2e`
+3. `npm run typecheck`
+4. `npm run build`
+5. `npm run test:ci`
+6. `npm run e2e:smoke`
 
 ## Alcance
 
