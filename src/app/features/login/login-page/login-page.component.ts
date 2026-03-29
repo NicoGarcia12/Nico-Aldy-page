@@ -1,15 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnDestroy,
   OnInit,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { filter } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
 import { MusicPlayerService } from '../../../core/media/music-player.service';
@@ -42,9 +44,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   private readonly musicPlayer = inject(MusicPlayerService);
   private readonly flashMessage = inject(FlashMessageService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   private noticeTimerId: ReturnType<typeof setTimeout> | null = null;
   private navigationTimerId: ReturnType<typeof setTimeout> | null = null;
-  private navigationSubscription: Subscription | null = null;
 
   readonly notice = signal<Notice | null>(null);
   readonly isMusicPlaying = this.musicPlayer.isPlaying;
@@ -78,8 +80,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showFlashMessage();
 
-    this.navigationSubscription = this.router.events
+    this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.showFlashMessage());
   }
 
@@ -157,10 +160,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
     if (this.navigationTimerId) {
       clearTimeout(this.navigationTimerId);
-    }
-
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
     }
   }
 

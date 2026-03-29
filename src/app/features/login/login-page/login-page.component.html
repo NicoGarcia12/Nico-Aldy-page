@@ -3,12 +3,13 @@
     <h1>Hola mi amorcito hermoso, esta vez elegí algo diferente</h1>
     <p class="subtitle">Completá para ver una pequeña sorpresa.</p>
 
-    <app-notice-toast
-      *ngIf="notice() as alert"
-      [type]="alert.type"
-      [message]="alert.message"
-      [floating]="alert.type !== 'success'"
-    />
+    @if (notice(); as alert) {
+      <app-notice-toast
+        [type]="alert.type"
+        [message]="alert.message"
+        [floating]="alert.type !== 'success'"
+      />
+    }
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
       <label>
