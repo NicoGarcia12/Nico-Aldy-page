@@ -114,7 +114,7 @@ try {
   }
 
   const result = await runCommand(
-    "npm run cypress:run -- --spec cypress/e2e/login-flow.cy.js --browser electron",
+    "npm run cypress:run -- --spec cypress/e2e/login-flow.cy.ts --browser electron",
   );
 
   await shutdown(result.code ?? 1);
