@@ -6,29 +6,39 @@ Evitar subir cambios con problemas de formato, linting, tipado o tests rotos.
 
 ## Regla operativa
 
-### Antes de cada commit
+### Comando recomendado (single-entry)
+
+1. `npm run validate:all`
+
+Este comando encadena:
+
+1. `format:check` (bloqueante)
+2. `lint`
+3. `typecheck`
+4. `build`
+5. `test:ci` (Jest)
+6. `e2e:smoke` (Cypress)
+
+### Fallback manual (si necesitás aislar una falla)
 
 1. `npm run format:check`
 2. `npm run lint`
 3. `npm run typecheck`
-
-### Antes de cada push
-
-1. `npm run build`
-2. `npm run test:ci`
-3. `npm run e2e` (si aplica para el cambio)
+4. `npm run build`
+5. `npm run test:ci`
+6. `npm run e2e:smoke`
 
 ## Criterio de bloqueo de CI
 
-- `lint`, `typecheck`, `build` y `test:ci`: bloqueantes.
-- `format:check`: hoy informativo (no bloqueante). Si el equipo decide bloquear formato, quitar `continue-on-error` del workflow.
+- `format:check`, `lint`, `typecheck`, `build` y `test:ci`: bloqueantes.
+- `e2e:smoke`: bloqueante en el job dedicado de smoke.
 
 ## Nota de Angular 20 en este repo
 
-- El typecheck recomendado es `npm run typecheck` (`tsc --noEmit -p tsconfig.app.json`).
-- Evitar `tsc --noEmit` sobre `tsconfig.json` raiz para no mezclar tipos de app/spec/e2e.
+- El typecheck recomendado es `npm run typecheck` con `tsc --noEmit -p tsconfig.app.json`.
+- Evitar `tsc --noEmit` sobre `tsconfig.json` raíz para no mezclar tipos de app/spec/e2e.
 
 ## Alcance
 
 - Esta regla aplica para este repo y para cualquier repo que tenga tooling equivalente (Prettier, linting y tests).
-- Si un repo no trae uno de esos comandos, se ejecutan los disponibles y se documenta la limitacion.
+- Si un repo no trae uno de esos comandos, se ejecutan los disponibles y se documenta la limitación.

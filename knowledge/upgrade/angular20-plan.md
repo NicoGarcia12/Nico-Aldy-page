@@ -136,5 +136,10 @@ Criterio de salida:
 - Se valido que el workflow `.github/workflows/ci.yml` ya ejecuta el quality gate requerido: `format:check`, `lint`, `typecheck` (`npx tsc --noEmit`), `build`, `test:ci` y `e2e:smoke`.
 - Se ajusto Node del runner de CI de `20` a `22` en los jobs `quality` y `e2e-smoke` para alinear el pipeline con el estado post-migracion a Angular 20 y politica LTS N/N-1.
 - Se mantuvo `ubuntu-latest` sin cambios.
-- Se mantuvo `Format check (informativo)` con `continue-on-error: true` para no bloquear PRs por estilo durante la estabilizacion de la migracion. Esta decision prioriza señales de calidad funcional (lint/typecheck/build/tests) sobre formato.
 - No se modifico deploy productivo (`deploy-gh-pages.yml`) porque no hay bloqueo grave ni dependencia directa de este ajuste.
+
+### CI hardening
+
+- Se ampliaron los triggers de CI para cubrir ramas `update/**`, incluyendo `update/angular20-migration`, en eventos `push` y `pull_request`.
+- `format:check` paso de modo informativo a bloqueante (se elimino `continue-on-error: true`) para evitar merges con desvio de formato.
+- Se mantuvo coherencia del pipeline con Node `22` en `quality` y `e2e-smoke`, conservando el quality gate completo antes del smoke e2e.
