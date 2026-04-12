@@ -38,7 +38,7 @@ npm run format:check
 npm run lint
 
 # Tests
-npm run jest
+npm run test
 npm run e2e:smoke
 ```
 
@@ -55,7 +55,7 @@ Si necesitás correrlo por pasos:
 ```bash
 npm run format:check
 npm run lint
-npm run jest
+npm run test:ci
 npm run e2e:smoke
 ```
 

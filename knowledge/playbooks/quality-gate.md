@@ -36,7 +36,9 @@ Este comando encadena:
 ## Nota de Angular 20 en este repo
 
 - El typecheck recomendado es `npm run typecheck` con `tsc --noEmit -p tsconfig.app.json`.
-- Evitar `tsc --noEmit` sobre `tsconfig.json` raíz para no mezclar tipos de app/spec/e2e.
+- Cobertura actual del typecheck: **app solamente** (fuentes de `src/` definidas por `tsconfig.app.json`).
+- Motivo: este gate valida tipado de código productivo sin mezclar contexto de tests (`*.spec.ts`) ni E2E (`cypress/**`), que tienen tooling y tipos distintos.
+- Evitar `tsc --noEmit` sobre `tsconfig.json` raíz para no mezclar tipos de app/spec/e2e y no introducir ruido en el chequeo bloqueante.
 
 ## Alcance
 
