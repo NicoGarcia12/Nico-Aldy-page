@@ -16,7 +16,7 @@
     "cypress:run": "cypress run",
     "e2e": "cypress run",
     "start:ci": "ng serve --host 127.0.0.1 --port 4200 --no-open",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "cypress:run:smoke": "cypress run --spec cypress/e2e/login-flow.cy.ts --browser electron",
     "test:ci": "jest --ci --runInBand --coverage",
     "e2e:smoke": "concurrently -k -s first -n \"SMOKE,SERVER\" -c \"green,cyan\" \"wait-on http-get://127.0.0.1:4200 --timeout 120000 && npm run cypress:run:smoke\" \"npm run start:ci\"",
