@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 300" role="img" aria-label="Palta con corazon variante 2">
+  <defs>
+    <linearGradient id="skin2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8bda67"/>
+      <stop offset="1" stop-color="#469940"/>
+    </linearGradient>
+    <radialGradient id="flesh2" cx="50%" cy="42%" r="58%">
+      <stop offset="0" stop-color="#ecf9bd"/>
+      <stop offset="1" stop-color="#a8d765"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse cx="130" cy="288" rx="68" ry="10" fill="#234726" opacity="0.2"/>
+  <path d="M130 22c54 0 95 43 95 98 0 74-53 150-95 150S35 194 35 120c0-55 41-98 95-98z" fill="url(#skin2)" stroke="#2a6f33" stroke-width="6"/>
+  <path d="M130 48c42 0 72 32 72 75 0 57-39 117-72 117s-72-60-72-117c0-43 30-75 72-75z" fill="url(#flesh2)" stroke="#88b94f" stroke-width="4"/>
+
+  <circle cx="104" cy="120" r="8" fill="#1f3f21"/>
+  <circle cx="156" cy="120" r="8" fill="#1f3f21"/>
+  <path d="M98 150c10 12 54 12 64 0" fill="none" stroke="#1f3f21" stroke-width="6" stroke-linecap="round"/>
+
+  <path d="M130 196c-17 0-30-11-30-28 0-14 10-24 22-24 9 0 15 4 19 9 4-5 10-9 19-9 12 0 22 10 22 24 0 17-13 28-30 28h-22z" fill="#ff5aa0"/>
+  <circle cx="130" cy="188" r="34" fill="none" stroke="#ff8dbd" stroke-width="4" opacity="0.65"/>
+
+  <path d="M42 122c-18 2-30 16-31 31" fill="none" stroke="#2a6f33" stroke-width="7" stroke-linecap="round"/>
+  <path d="M218 122c18 2 30 16 31 31" fill="none" stroke="#2a6f33" stroke-width="7" stroke-linecap="round"/>
+  <path d="M100 270v18" fill="none" stroke="#2a6f33" stroke-width="7" stroke-linecap="round"/>
+  <path d="M160 270v18" fill="none" stroke="#2a6f33" stroke-width="7" stroke-linecap="round"/>
+</svg>
