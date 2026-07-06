@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnInit,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -11,7 +13,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
-import { MusicPlayerService } from '../../../core/media/music-player.service';
+import {
+  MusicPlayerService,
+  PlaylistTrack,
+} from '../../../core/media/music-player.service';
 import { FlashMessageService } from '../../../core/ui/flash-message.service';
 import {
   NoticeToastComponent,
@@ -38,16 +43,22 @@ export class DashboardPageComponent implements OnInit {
   private readonly musicPlayer = inject(MusicPlayerService);
   private readonly flashMessage = inject(FlashMessageService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   readonly session = this.authService.getSession();
   readonly notice = signal<Notice | null>(null);
   readonly isMusicPlaying = this.musicPlayer.isPlaying;
+  readonly tracks = this.musicPlayer.tracks;
+  readonly currentTrackIndex = this.musicPlayer.currentTrackIndex;
+  readonly currentTrack = computed<PlaylistTrack | null>(() => {
+    return this.tracks()[this.currentTrackIndex()] ?? null;
+  });
 
   ngOnInit(): void {
     this.showFlashMessage();
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.showFlashMessage());
   }
 
@@ -58,6 +69,10 @@ export class DashboardPageComponent implements OnInit {
 
   toggleMusic(): void {
     void this.musicPlayer.toggle();
+  }
+
+  selectTrack(index: number): void {
+    void this.musicPlayer.selectTrack(index);
   }
 
   private showFlashMessage(): void {
