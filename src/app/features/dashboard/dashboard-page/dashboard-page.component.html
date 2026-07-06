@@ -12,6 +12,12 @@
       <h2>Amor en modo distancia</h2>
       <p class="letter-greeting">Mi amor,</p>
 
+      @if (currentTrack(); as track) {
+        <p class="track-now-playing">
+          🎵 Sonando: <strong>{{ track.title }}</strong>
+        </p>
+      }
+
       <p>
         Primer mes que no pasamos juntitos fisicamente. Primer mes que estoy
         lejitos tuyo, que sufro la distancia y extraño tu sonrisa al lado mio,
@@ -73,6 +79,27 @@
         meses ❤️
       </p>
     </article>
+
+    @if (tracks().length > 1) {
+      <section class="playlist" aria-label="Lista de canciones">
+        <p class="playlist-title">Elegí una canción</p>
+
+        <div class="playlist-actions">
+          @for (track of tracks(); track track.src; let index = $index) {
+            <button
+              type="button"
+              class="secondary playlist-button"
+              [class.is-active]="index === currentTrackIndex()"
+              [attr.aria-pressed]="index === currentTrackIndex()"
+              [attr.data-track-index]="index"
+              (click)="selectTrack(index)"
+            >
+              {{ track.title }}
+            </button>
+          }
+        </div>
+      </section>
+    }
 
     <div class="actions">
       <button type="button" class="secondary" (click)="toggleMusic()">

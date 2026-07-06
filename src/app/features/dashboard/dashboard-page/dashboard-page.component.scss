@@ -69,6 +69,41 @@
   color: #8e1f52;
 }
 
+.track-now-playing {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgb(240 87 153 / 10%);
+}
+
+.playlist {
+  margin-top: 0.95rem;
+  padding: 0.9rem;
+  border: 1px solid #f6c5de;
+  border-radius: 0.9rem;
+  background: rgb(255 255 255 / 60%);
+}
+
+.playlist-title {
+  margin: 0 0 0.65rem;
+  color: #8e1f52;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.playlist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.playlist-button.is-active {
+  border-color: #d93d81;
+  background: #ffe6f1;
+}
+
 .actions {
   margin-top: 0.95rem;
   display: flex;
