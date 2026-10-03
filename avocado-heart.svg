@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 300" role="img" aria-label="Palta con corazon">
+  <defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ed561"/>
+      <stop offset="1" stop-color="#4ba646"/>
+    </linearGradient>
+    <linearGradient id="flesh" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9f2a2"/>
+      <stop offset="1" stop-color="#b3de72"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="130" cy="286" rx="72" ry="11" fill="#000" opacity="0.12"/>
+
+  <path d="M130 24c55 0 96 43 96 99 0 73-52 147-96 147S34 196 34 123c0-56 41-99 96-99z" fill="url(#skin)" stroke="#2d7b35" stroke-width="6"/>
+  <path d="M130 48c42 0 73 33 73 77 0 58-39 118-73 118s-73-60-73-118c0-44 31-77 73-77z" fill="url(#flesh)" stroke="#90bf58" stroke-width="4"/>
+
+  <circle cx="102" cy="120" r="7" fill="#1f3f21"/>
+  <circle cx="158" cy="120" r="7" fill="#1f3f21"/>
+  <path d="M100 152c11 10 49 10 60 0" fill="none" stroke="#1f3f21" stroke-width="6" stroke-linecap="round"/>
+
+  <path d="M130 197c-16 0-30-11-30-29 0-14 11-24 23-24 9 0 15 4 19 10 4-6 10-10 19-10 12 0 23 10 23 24 0 18-14 29-30 29h-24z" fill="#ff4b93"/>
+
+  <path d="M40 124c-16 5-27 18-27 34" fill="none" stroke="#2d7b35" stroke-width="7" stroke-linecap="round"/>
+  <path d="M220 124c16 5 27 18 27 34" fill="none" stroke="#2d7b35" stroke-width="7" stroke-linecap="round"/>
+  <path d="M102 270v19" fill="none" stroke="#2d7b35" stroke-width="7" stroke-linecap="round"/>
+  <path d="M158 270v19" fill="none" stroke="#2d7b35" stroke-width="7" stroke-linecap="round"/>
+</svg>
