@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [master, update/**]
+    branches: [master, develop, update/**]
   push:
-    branches: [master, upgrade/angular20, update/**]
+    branches: [master, develop, upgrade/angular20, update/**]
   workflow_dispatch:
 
 permissions:
